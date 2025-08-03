@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shortest Job First</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="start-page">
+  <div class="start">
+    <div class="container">
+      <div class="heading">
+        <h2>Shortest Job First Process (Non-Preemptive)</h2>
+      </div>
+      <div class="discription">
+        Shortest Job First is a CPU scheduling algorithm where the process with the shortest burst time is selected next. Once a process starts execution, it cannot be interrupted until it finishes. It minimizes average waiting and turnaround time, making it highly efficient. However, it requires prior knowledge of burst times and may lead to starvation of longer processes. It is suitable for batch systems with predictable job lengths but not ideal for interactive systems.
+      </div>
+      <button class="letgo-btn" onclick="mainpg()">Let's Go</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="input-section">
+      <form id="myForm" onsubmit="SJF(event)">
+        <div class="inp">
+          <label for="numProcess">How many processes: </label>
+          <input type="number" id="numProcess" min="1" required />
+        </div>
+        <button id="Submit" type="submit">Submit</button>
+      </form>
+      <div id="inputFields"></div>
+    </div>
+
+    <div class="SJF">
+      <p id="output"></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Process</th>
+            <th>Arrival Time</th>
+            <th>Burst Time</th>
+            <th>Completion Time</th>
+            <th>Turn Around Time</th>
+            <th>Waiting Time</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+  <script src="script.js"></script>
+</body>
+</html>

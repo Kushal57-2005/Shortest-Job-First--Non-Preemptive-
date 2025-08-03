@@ -1,0 +1,168 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      color: black;
+    }
+
+    body.start-page {
+      height: 100vh;
+      width: 100vw;
+      background-color: #799EFF;
+      font-family: Arial, sans-serif;
+    }
+
+    .start {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heading h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .discription {
+      font-size: 1.1rem;
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .letgo-btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    body.main-page {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      height: 100vh;
+      width: 100vw;
+      background-color: #799EFF;
+    }
+
+    .main {
+      display: none;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      color: black;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0 5px 0;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    } 
+    tr:nth-child(odd){
+      background-color: #ffffff;
+    }
+
+    .inp {
+      display: flex;
+      flex-direction: row;
+      padding-bottom: 10px;
+      color: #ffffff;
+    }
+
+    #myForm {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+
+    #numProcess {
+      height: 25px;
+      margin-left: 10px;
+    }
+
+    #Submit {
+      padding: 10px 20px;
+      font-size: 1rem;
+      width: 100px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .SJF {
+      display: none;
+      background-color: #ffffff;
+      color: black;
+    }
+    .input {
+      padding-top: 5px;
+    }
+    .input input {
+      height: 25px;
+    }
+    input[type="number"] {
+    width: 10rem;         
+    height: 25px;         
+      padding: 6px 14px;      
+    font-size: 1rem;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+  text-align: left;       
+}
+
+    .calcBtn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #output {
+      padding: 10px 0 0 0;
+    }
