@@ -1,56 +1,76 @@
+# 🖥️ Shortest Job First (SJF) CPU Scheduling Algorithm - Non-Preemptive
 
-🖥️ Shortest Job First (SJF) CPU Scheduling Algorithm - Non-Preemptive
-This project demonstrates the implementation of the Shortest Job First (SJF) CPU Scheduling algorithm in a simple web-based interface. The non-preemptive version of SJF is implemented here, meaning once a process starts execution, it cannot be interrupted until it completes.
+This project demonstrates the implementation of the **Shortest Job First (SJF)** CPU Scheduling algorithm in a web-based interface. The **non-preemptive** version is used here—once a process starts, it runs to completion without interruption.
 
-SJF selects the process with the shortest burst time next for execution, minimizing the average waiting and turnaround times, ensuring efficiency in CPU scheduling. However, it requires prior knowledge of burst times and can lead to process starvation for longer tasks.
+**SJF** selects the process with the shortest burst time next. It helps minimize average waiting time and turnaround time, making it efficient for batch jobs with predictable durations.
 
-Note: The preemptive version of the SJF algorithm was added in a previous update, where processes can be interrupted and restarted based on shorter burst times.
+> ✅ **Live Demo**:
+(https://kushal57-2005.github.io/Shortest-Job-First--Non-Preemptive-/)
 
-🚀 Features
-Interactive Input: Users can input the number of processes along with their respective arrival time and burst time.
+## 🚀 Features
 
-SJF Calculation: The algorithm calculates the completion time, turnaround time, and waiting time for each process.
+* 📥 User input for number of processes, arrival time, and burst time
+* 🧠 Calculates:
 
-Average Waiting & Turnaround Time: The averages are displayed after the calculation.
+  * Completion Time
+  * Turnaround Time
+  * Waiting Time
+  * 📊 Displays results in a clean table format
+  * 📉 Shows **average turnaround** and **waiting time**
 
-⚙️ Technologies Used
-HTML: Used to structure the content and layout of the webpage.
+---
 
-CSS: For styling the page and making it responsive and visually appealing.
+## ⚙️ Technologies Used
 
-JavaScript: Powers the logic behind the SJF scheduling algorithm and dynamically updates the results.
+* **HTML** – Page structure
+* **CSS** – Responsive, clean UI styling
+* **JavaScript** – Logic for SJF scheduling and dynamic DOM updates
 
-🛠️ Getting Started
-Prerequisites
-A modern web browser (e.g., Google Chrome, Firefox, etc.)
+---
 
-Basic knowledge of the Shortest Job First (SJF) CPU scheduling algorithm.
+## 🛠️ Getting Started
 
-How to Run
-Clone or download the repository to your local machine.
+### Prerequisites
 
-Open the index.html file in your browser.
+* A modern web browser (e.g., Chrome, Firefox)
+* Basic understanding of CPU scheduling algorithms
 
-The landing page will provide a description of the algorithm.
+### Run the App
 
-Click the "Let's Go" button to move to the input form.
+1. Clone or download the repository.
+2. Open `index.html` in your browser.
+3. On the landing page, click **"Let's Go"** to proceed.
+4. Enter process data and click **"Calculate SJF"** to see results.
 
-Enter the number of processes and provide their arrival times and burst times.
+---
 
-Click "Calculate SJF" to see the results displayed in a table format.
+## 📁 File Structure
 
-📁 Files Structure
-index.html: Contains the HTML structure for the webpage.
+```
+📁 project-root/
+├── index.html     # Main HTML file
+├── style.css      # Styling file
+└── script.js      # JavaScript logic for SJF
+```
 
-style.css: Provides styling and layout for the user interface.
+---
 
-script.js: The JavaScript file that handles the algorithm, calculations, and result display.
+## ⏱️ Preemptive SJF (Previous Update)
 
-🤝 Contribution
-Feel free to fork the repository, submit issues, or open pull requests if you have suggestions, bug fixes, or improvements! 🛠️
+In the previous update, the **preemptive version** (Shortest Remaining Time First) was introduced. This version allows a running process to be preempted if a new one arrives with a shorter burst time—better for interactive systems but more complex to implement.
 
-🏆 Acknowledgements
-Huge thanks to the open-source community for their valuable resources and inspiration! 🙏
+---
 
-This project was made as part of a learning process to understand CPU scheduling algorithms and their real-world applications. 💻
+## 🤝 Contribution
 
+Contributions are welcome!
+Feel free to **fork**, **open issues**, or **submit pull requests** to improve the project 💡
+
+---
+
+## 🙏 Acknowledgements
+
+* Inspired by classic CPU scheduling algorithm exercises
+* Thanks to the open-source community for continual learning support 🌍
+
+---
