@@ -53,11 +53,6 @@ This project demonstrates the implementation of the **Shortest Job First (SJF)**
 └── script.js      # JavaScript logic for SJF
 ```
 
----
-
-## ⏱️ Preemptive SJF (Previous Update)
-
-In the previous update, the **preemptive version** (Shortest Remaining Time First) was introduced. This version allows a running process to be preempted if a new one arrives with a shorter burst time—better for interactive systems but more complex to implement.
 
 ---
 
