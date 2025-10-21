@@ -1,0 +1,22 @@
+[
+    { "name": "Vanilla Bliss", "price": 120, "description": "Classic creamy vanilla made with real vanilla beans.", "image": "./assets/Vanilla_Bliss.png" },
+    { "name": "Chocolate Fudge", "price": 150, "description": "Rich cocoa ice cream with velvety fudge swirls.", "image": "./assets/Chocolate_Fudge.png" },
+    { "name": "Strawberry Swirl", "price": 130, "description": "Fresh strawberries blended into creamy goodness.", "image": "./assets/Strawberry_Swirl.png" },
+    { "name": "Butterscotch Crunch", "price": 140, "description": "Buttery caramel ice cream with toffee bits.", "image": "./assets/Butterscotch_Crunch.png" },
+    { "name": "Mango Magic", "price": 160, "description": "Alphonso mango pulp in creamy ice cream.", "image": "./assets/Mango_Magic.png" },
+    { "name": "Belgian Chocolate Chip", "price": 170, "description": "Dark chocolate ice cream loaded with chocolate chunks.", "image": "./assets/Belgian_Chocolate_Chip.png" },
+    { "name": "Blueberry Cheesecake", "price": 160, "description": "Cheesecake flavored ice cream with blueberry swirls.", "image": "./assets/Blueberry_Cheesecake.png" },
+    { "name": "Caramel Sea Salt", "price": 150, "description": "Sweet caramel with a dash of sea salt.", "image": "./assets/Caramel_Sea_Salt.png" },
+    { "name": "Coffee Mocha Dream", "price": 160, "description": "Coffee ice cream with chocolate swirls.", "image": "./assets/Coffee_Mocha_Dream.png" },
+    { "name": "Pistachio Paradise", "price": 170, "description": "Nutty pistachio ice cream with real pistachio pieces.", "image": "./assets/Pistachio_Paradise.png" },
+    { "name": "Bubblegum Burst", "price": 130, "description": "Sweet bubblegum flavor with colorful sprinkles.", "image": "./assets/Bubblegum_Burst.png" },
+    { "name": "Cotton Candy Cloud", "price": 140, "description": "Fluffy cotton candy flavored ice cream with pastel colors.", "image": "./assets/Cotton_Candy_Cloud.png" },
+    { "name": "Mint Choco Chill", "price": 150, "description": "Cool mint ice cream with chocolate flakes.", "image": "./assets/Mint_Choco_Chill.png" },
+    { "name": "Oreo Cookies & Cream", "price": 160, "description": "Creamy vanilla base with Oreo cookie chunks.", "image": "./assets/Oreo_Cookies_and_Cream.png" },
+    { "name": "Ferrero Fantasy", "price": 180, "description": "Hazelnut & chocolate swirls inspired by Ferrero Rocher.", "image": "./assets/Ferrero_Fantasy.png" },
+    { "name": "Red Velvet Delight", "price": 170, "description": "Rich red velvet with cream cheese swirls.", "image": "./assets/Red_Velvet_Delight.png" },
+    { "name": "Coconut Paradise", "price": 150, "description": "Smooth coconut cream with toasted coconut flakes.", "image": "./assets/Coconut_Paradise.png" },
+    { "name": "Tiramisu Twist", "price": 180, "description": "Coffee-flavored cream with a hint of cocoa.", "image": "./assets/Tiramisu_Twist.png" },
+    { "name": "Raspberry Ripple", "price": 160, "description": "Fresh raspberry swirls in creamy vanilla ice cream.", "image": "./assets/Raspberry_Ripple.png" },
+    { "name": "Honey Almond Crunch", "price": 170, "description": "Sweet honey cream with crunchy almond pieces.", "image": "./assets/Honey_Almond_Crunch.png" }
+]

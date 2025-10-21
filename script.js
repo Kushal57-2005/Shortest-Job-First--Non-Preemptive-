@@ -1,124 +1,143 @@
-function mainpg() {
-  document.body.className = "main-page";
-  document.querySelector(".start").style.display = "none";
-  document.querySelector(".main").style.display = "block";
-}
+let cartBag = document.querySelector('.cart-icon');
+let cartTab = document.querySelector('.cart-tab');
+const closeBtn = document.querySelector('.close-btn');
+const cardList = document.querySelector('.card-list');
+const cartList = document.querySelector('.cart-list');
+const totalPrice = document.querySelector('.cart-total');
+const cartValue = document.querySelector('.cart-value');
 
-function SJF(event) {
-  event.preventDefault();
+cartBag.addEventListener('click', () => {
+    cartTab.classList.toggle('cart-tab-active');
+});
 
-  const num = parseInt(document.getElementById("numProcess").value);
-  if (num <= 0) return;
+closeBtn.addEventListener('click', () => {
+    cartTab.classList.toggle('cart-tab-active');
+});
 
-  createInputFields(num);
-}
+let productList = [];
+let cartArr = [];
+let totalMoney = 0;
+let totalQuantity = 0;
 
-function createInputFields(n) {
-  const container = document.getElementById("inputFields");
-  container.innerHTML = ""; // Clear previous inputs if any
+const showCards = () => {
+    cardList.innerHTML = '';
 
-  for (let i = 0; i < n; i++) {
-    const div = document.createElement("div");
-    div.className = 'input';
-    div.innerHTML = `
-      <label style="color:black;">Process ${i + 1} - Arrival Time: 
-        <input type="number" class="arrival" min="0" required />
-      </label>
-      <label style="color:black; margin-left:10px;">Burst Time: 
-        <input type="number" class="burst" min="1" required />
-      </label>
-      <br><br>
-    `;
-    container.appendChild(div);
-  }
+    productList.forEach(product => {
+        const orderCard = document.createElement('div');
+        orderCard.classList.add('order-card', 'text-center');
 
-  const calcBtn = document.createElement("button");
-  calcBtn.className = 'calcBtn';
-  calcBtn.innerText = "Calculate SJF";
-  calcBtn.style.marginTop = "1rem";
-  calcBtn.onclick = calculateSJF;
-  container.appendChild(calcBtn);
-}
+        orderCard.innerHTML = `
+            <div class="card-image">
+                <img src="${product.image}" alt="${product.name}">
+            </div>
+            <h4>${product.name}</h4>
+            <p>${product.description}</p>
+            <h4 class="price">₹${product.price}</h4>
+            <button class="btn cart-btn smooth">Add To Cart</button>
+        `;
 
-function calculateSJF() {
-  const arrivalInputs = document.querySelectorAll(".arrival");
-  const burstInputs = document.querySelectorAll(".burst");
+        cardList.appendChild(orderCard);
+        const cartBtn = orderCard.querySelector('.cart-btn');
 
-  const n = arrivalInputs.length;
-  let processes = [];
+        cartBtn.addEventListener('click', () => {
+            if (totalQuantity >= 10) {
+                alert("Sweet overload! You can only have 10 ice creams in your cart.");
+                return;
+            }
+            
+            if (isExist(product.name)) {
+                const existingItem = cartArr.find(item => item.name === product.name);
+                existingItem.value++;
+                existingItem.quantityValue.textContent = existingItem.value;
+                totalMoney += product.price;
+                totalQuantity++;
+                totalPrice.textContent = `₹${totalMoney}`;
+                cartValue.textContent = totalQuantity;
+            } else {
+                let value = 1;
+                
+                const itemCard = document.createElement('div');
+                itemCard.classList.add('item');
 
-  for (let i = 0; i < n; i++) {
-    const arrival = parseInt(arrivalInputs[i].value);
-    const burst = parseInt(burstInputs[i].value);
-    processes.push({ id: i + 1, arrival, burst });
-  }
+                itemCard.innerHTML = `
+                    <div class="item-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div>
+                        <h4>${product.name}</h4>
+                        <h5 class="item-total">₹${product.price}</h5>
+                    </div>
+                    <div class="flex quantity">
+                        <button href="#" class="quantity-btn quantity1 smooth">
+                            <i class="fa-solid fa-minus"></i>
+                        </button>
+                        <h4 class="quantity-value">${value}</h4>
+                        <button href="#" class="quantity-btn quantity2 smooth">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                `;
 
-  // Clone the original order for display later
-  const originalOrder = [...processes];
+                cartList.appendChild(itemCard);
+                totalMoney += value * product.price;
+                totalPrice.textContent = `₹${totalMoney}`;
+                totalQuantity += value;
+                cartValue.textContent = totalQuantity;
 
-  // Sort by arrival and then burst time (SJF)
-  processes.sort((a, b) => a.arrival - b.arrival || a.burst - b.burst);
+                const minusBtn = itemCard.querySelector('.quantity1');
+                const plusBtn = itemCard.querySelector('.quantity2');
+                const quantityValue = itemCard.querySelector('.quantity-value');
 
-  let currentTime = 0;
-  let completed = [];
+                minusBtn.addEventListener('click', () => {
+                    const existingItem = cartArr.find(item => item.name === product.name);
+                    if (existingItem && existingItem.value > 1) {
+                        existingItem.value--;
+                        quantityValue.textContent = existingItem.value;
+                        totalMoney -= product.price;
+                        totalQuantity--;
+                        totalPrice.textContent = `₹${totalMoney}`;
+                        cartValue.textContent = totalQuantity;
+                    } else if (existingItem && existingItem.value === 1) {
+                        cartList.removeChild(itemCard);
+                        totalMoney -= product.price;
+                        totalQuantity--;
+                        totalPrice.textContent = `₹${totalMoney}`;
+                        cartValue.textContent = totalQuantity;
+                        cartArr = cartArr.filter(item => item.name !== product.name);
+                    }
+                });
+                
 
-  while (processes.length > 0) {
-    let available = processes.filter(p => p.arrival <= currentTime);
-    if (available.length === 0) {
-      currentTime = processes[0].arrival;
-      available = processes.filter(p => p.arrival <= currentTime);
-    }
+                plusBtn.addEventListener('click', () => {
+                    if (value < 10) {
+                        value++;
+                        quantityValue.textContent = value;
+                        totalMoney += product.price;
+                        totalQuantity++;
+                        totalPrice.textContent = `₹${totalMoney}`;
+                        cartValue.textContent = totalQuantity;
+                    } else {
+                        alert("Sweet overload! You can only have 10 ice creams in your cart.");
+                    }
+                });
 
-    available.sort((a, b) => a.burst - b.burst);
-    const process = available[0];
-
-    currentTime += process.burst;
-    const tat = currentTime - process.arrival;
-    const wt = tat - process.burst;
-
-    completed.push({
-      id: process.id,
-      arrival: process.arrival,
-      burst: process.burst,
-      completion: currentTime,
-      tat: tat,
-      wt: wt
+                cartArr.push({ name: product.name, value, quantityValue });
+            }
+        });
     });
+};
 
-    processes = processes.filter(p => p.id !== process.id);
-  }
-
-  // Sort result by original input order (by process ID)
-  completed.sort((a, b) => a.id - b.id);
-
-  displayResult(completed);
+function isExist(name) {
+    return cartArr.some(item => item.name === name);
 }
 
-function displayResult(completed) {
-  const tbody = document.getElementById("tableBody");
-  tbody.innerHTML = "";
 
-  let totalTAT = 0, totalWT = 0;
 
-  completed.forEach(p => {
-    totalTAT += p.tat;
-    totalWT += p.wt;
-    const row = `<tr>
-      <td>P${p.id}</td>
-      <td>${p.arrival}</td>
-      <td>${p.burst}</td>
-      <td>${p.completion}</td>
-      <td>${p.tat}</td>
-      <td>${p.wt}</td>
-    </tr>`;
-    tbody.innerHTML += row;
-  });
+const initApp = () => {
+    fetch('product.json').then(response => response.json()).then(data => {
+        productList = data;
+        showCards();
+    });
+};
 
-  const output = document.getElementById("output");
-  output.innerHTML = `
-    <strong>Average Turn Around Time:</strong> ${(totalTAT / completed.length).toFixed(2)}<br>
-    <strong>Average Waiting Time:</strong> ${(totalWT / completed.length).toFixed(2)}
-  `;
-
-  document.querySelector(".SJF").style.display = "block";
-}
+initApp();

@@ -1,51 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shortest Job First</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icy Cool</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 </head>
-<body class="start-page">
-  <div class="start">
-    <div class="container">
-      <div class="heading">
-        <h2>Shortest Job First Process (Non-Preemptive)</h2>
-      </div>
-      <div class="discription">
-        Shortest Job First is a CPU scheduling algorithm where the process with the shortest burst time is selected next. Once a process starts execution, it cannot be interrupted until it finishes. It minimizes average waiting and turnaround time, making it highly efficient. However, it requires prior knowledge of burst times and may lead to starvation of longer processes. It is suitable for batch systems with predictable job lengths but not ideal for interactive systems.
-      </div>
-      <button class="letgo-btn" onclick="mainpg()">Let's Go</button>
-    </div>
-  </div>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar flex between wrapper">
+            <a href="#" class="logo">Icy cool</a>
+            <ul class="navlist flex">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Service</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contacts</a></li>
+            </ul>
+            <div class="desktop-action flex">
+                <a href="#" class="cart-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-value">0</span>
+                </a>
+                <button class="btn smooth">
+                    Sign in
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-  <div class="main">
-    <div class="input-section">
-      <form id="myForm" onsubmit="SJF(event)">
-        <div class="inp">
-          <label for="numProcess">How many processes: </label>
-          <input type="number" id="numProcess" min="1" required />
+    <!-- SECTION -->
+    <main>
+        <section id="home">
+            <div class="hero-section flex wrapper">
+                <div class="content">
+                    <h1>Enjoy Your Icy and Sweet <span>Ice-cream</span></h1>
+                    <p class="para">Experience the magic of melt-in-mouth <br> ice cream crafted with care and delivered to your tummy in minutes.
+                    </p>
+                    <div class="pr flex"><a href="#" class="btn smooth">Order now</a>
+                    <a href="#" class="social-icon smooth"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon smooth"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon smooth"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-icon smooth"><i class="fa-brands fa-google-plus-g"></i></a>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="./assets/IceBG.jpeg" alt="ice-cream" height="575px" style="position:absolute">
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="wrapper services">
+                <h5 class="text-center mn">Our Services</h5>
+                <h2 class="text-center">How does it works ?</h2>
+            <div class="service-cards flex">
+                <div class="service-card">
+                  <i class="fa-solid fa-mobile-screen"></i>
+                  <h3>Easy to Order</h3>
+                  <p>Browse our flavors and order your favorite scoop in just a few taps.</p>
+                </div>
+            
+                <div class="service-card">
+                  <i class="fa-solid fa-truck-fast"></i>
+                  <h3>Fast Delivery</h3>
+                  <p>Your order is prepared fresh and delivered chilled — faster than you think!</p>
+                </div>
+            
+                <div class="service-card">
+                  <i class="fa-solid fa-ice-cream"></i>
+                  <h3>Best Quality</h3>
+                  <p>Made with premium ingredients to ensure every bite melts perfectly.</p>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section id="menu">
+            <div class="wrapper menu">
+                <h5 class="text-center mn">Our Menu</h5>
+                <h2 class="text-center">The Most Popular</h2>
+            <div class="card-list flex">
+                <!-- <div class="order-card text-center">
+                    <div class="card-image"><img src="./assets/Vanilla.jpg" alt=""></div>
+                    <h4>Vanilla Bliss</h4>
+                    <p>Classic creamy vanilla made with real vanilla beans.</p>
+                    <h4>₹120</h4>
+                    <button class="btn cart-btn" >Add To Cart</button>
+                </div> -->
+            </div>
+            <!-- CART LIST -->
+            <div class="cart-tab smooth">
+                <h3>Your Cart</h3>
+                <div class="cart-list">
+                    <!-- <div class="item">
+                        <div class="item-image">
+                            <img src="./assets/Vanilla.jpg">
+                        </div>
+                        <div>
+                            <h4>Vanilla Bliss</h4>
+                            <h5 class="item-total">₹120</h5>
+                        </div>
+                        <div class="flex">
+                            <a href="#" class="quantity-btn">
+                                <i class="fa-solid fa-minus"></i>
+                            <a>
+                            <h4 class="quantity-value">1</h4>
+                            <a href="#"class="quantity-btn">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        </div>
+                    </div> -->
+                
+                    
+
+                </div>
+                <div class="total-container">
+                    <h4>Total:</h4>
+                    <h4 class="cart-total">₹0.00</h4>
+                </div>
+                <div class="btn-container flex">
+                    <a href="#" class="btn close-btn smooth">Close</a>
+                    <a href="#" class="btn smooth">Check-Out</a>
+                   
+                </div>
+            </div>
+            </div>
+        </section>
+      
+      
+        <section id="about">
+            <div class="wrapper about flex">
+                <div class="content">
+                <h5 class="text-center mn">Our Reviews</h5>
+                <h2 class="text-center">What they says ?</h2>
+
+                <div class="review-container">
+                    <div class="review-container">
+                        <div class="review-list">
+                          <div class="review-card">
+                            <div class="profile-row">
+                              <div class="profile-img">
+                                <img src="./assets/profile-1.jpg" alt="Ava" />
+                              </div>
+                              <div class="profile-meta">
+                                <h4>Rohan Iyer</h4>
+                                <div class="rating">
+                                  <i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="review-text">“Absolutely loved the Salted Caramel scoop — creamy, balanced sweetness and lightning-fast delivery. Best evening treat!”</p>
+                          </div>
+                      
+                          <div class="review-card">
+                            <div class="profile-row">
+                              <div class="profile-img">
+                                <img src="./assets/profile-2.jpg" alt="Liam" />
+                              </div>
+                              <div class="profile-meta">
+                                <h4>Arnav Mehta</h4>
+                                <div class="rating">
+                                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                  <i class="fa-regular fa-star"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="review-text">“Great texture and real fruit flavour in the mango scoop. Packaging kept it perfectly chilled.”</p>
+                          </div>
+                      
+                          <div class="review-card">
+                            <div class="profile-row">
+                              <div class="profile-img">
+                                <img src="./assets/profile-3.jpg" alt="Sophia" />
+                              </div>
+                              <div class="profile-meta">
+                                <h4>Priyanka sharma</h4>
+                                <div class="rating">
+                                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="review-text">“Family favourite. The portions are generous and the pistachio is the real deal.”</p>
+                          </div>
+                          <div class="review-card">
+                            <div class="profile-row">
+                              <div class="profile-img">
+                                <img src="./assets/profile-4.jpg" alt="Liam" />
+                              </div>
+                              <div class="profile-meta">
+                                <h4>Sneha Kapoor</h4>
+                                <div class="rating">
+                                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="review-text">“Absolutely loved the Mango Magic Sundae! 🍨 It tasted just like real Alphonso mangoes. The place has such cool vibes, and I’d definitely visit again with friends!”</p>
+                          </div>
+                          <div class="review-card">
+                            <div class="profile-row">
+                              <div class="profile-img">
+                                <img src="./assets/profile-5.jpg" alt="Liam" />
+                              </div>
+                              <div class="profile-meta">
+                                <h4>Ananya Patel</h4>
+                                <div class="rating">
+                                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                  <i class="fa-solid fa-star"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="review-text">“I tried their Choco Brownie Blast and it was amazing 😍 — soft brownie chunks with creamy chocolate ice cream. A must-try for chocolate lovers!”</p>
+                          </div>
+                          <div class="review-card">
+                            <div class="profile-row">
+                              <div class="profile-img">
+                                <img src="./assets/profile-6.jpg" alt="Liam" />
+                              </div>
+                              <div class="profile-meta">
+                                <h4>Kunal Gupta</h4>
+                                <div class="rating">
+                                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                  <i class="fa-regular fa-star"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="review-text">“The Butterscotch Crunch was pure bliss! The crunch and sweetness were just right — definitely my new favorite dessert spot!”</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+            </div>
+        </section>
+
+        <section id="application">
+            <div class="app wrapper flex">
+                <img src="./assets/mobile-app.jpg" height="573px">
+                <div class="info-app">
+                        <h5 class="mn">Our Application</h5>
+                        <h1>Now You Can Order Your Favorite stuff from our app!</h1>
+                        <h3>Craving something cool? Explore nearby flavors and <br> get your favorite ice cream delivered fresh and fast</h3>
+                        <button class="btn-1">Get the app</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact flex wrapper">
+                <h5 class="mn text-center">Our Subscribe</h5>
+                <h1 class="text-center">Subscribe to Our Newsletter</h1>
+                <h3 class="text-center cr">We recommend you to subscribe our newspaper,drop your email <br> below to get daily update about us</h3>
+                <div class="input">
+                    <input  type="email" placeholder="Enter your email address">
+                    <button class="text-center btn">Subscribe</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="flex wrapper">
+                <div class="footer-wrapper">
+                    <a href="#" class="logo">Icy cool.</a>
+                    <p class="para">
+                        We bring joy to <br> your taste buds with ice cream delivered quickly!
+                    </p>
+                    <div class="pr flex">
+                        <a href="#" class="icon smooth"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon smooth"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="icon smooth"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="icon smooth"><i class="fa-brands fa-google-plus-g"></i></a>
+                    </div>
+                </div>
+                <div class="footer-wrapper bt flex">
+                    <ul class="flex">
+                        <li class="head logo">Our Menu</li>
+                        <li>Special</li>
+                        <li>Popular</li>
+                        <li>Categories</li>
+                    </ul>
+                </div>
+                <div class="footer-wrapper">
+                    <ul class="flex">
+                        <li class="head logo">Company</li>
+                        <li>Why Icy Cool</li>
+                        <li>Partner with us</li>
+                        <li>About us</li>
+                        <li>FAQ's</li>
+                    </ul>
+                </div>
+                <div class="footer-wrapper">
+                    <ul class="flex">
+                        <li class="head logo">Support</li>
+                        <li>Account</li>
+                        <li>Support name</li>
+                        <li>Feedback</li>
+                        <li>Contacts</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <button id="Submit" type="submit">Submit</button>
-      </form>
-      <div id="inputFields"></div>
-    </div>
+    </footer>
 
-    <div class="SJF">
-      <p id="output"></p>
-      <table>
-        <thead>
-          <tr>
-            <th>Process</th>
-            <th>Arrival Time</th>
-            <th>Burst Time</th>
-            <th>Completion Time</th>
-            <th>Turn Around Time</th>
-            <th>Waiting Time</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-  <script src="script.js"></script>
+   <script src="script.js"></script> 
 </body>
 </html>
