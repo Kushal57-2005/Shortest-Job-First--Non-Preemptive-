@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shortest Job First</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="start-page">
+    <div class="start">
+      <div class="container">
+        <div class="heading">
+          <h2>CPU Scheduling Alogrithm</h2>
+        </div>
+        <div>Visualize & compare CPU scheduling algorithms</div>
+        <div class="cards">
+          <div class="card FCFS">
+            <div class="heading">
+              <h3>First Come First Serve</h3>
+            </div>
+            <div class="description">
+              First Come, First Serve (FCFS) is one of the simplest types of CPU
+              scheduling algorithms. It is exactly what it sounds like:
+              processes are attended to in the order in which they arrive in the
+              ready queue, much like customers lining up at a grocery store.
+            </div>
+            <button onclick="startAlgo('FCFS')">Start</button>
+          </div>
+          <div class="card SJF1">
+            <div class="heading">
+              <h3>Shortest Job First (Non Preemptive)</h3>
+            </div>
+            <div class="description">
+              Shortest Job First(Non Preemptive) is a CPU scheduling algorithm
+              where the process with the shortest burst time is selected next.
+              Once a process starts execution, it cannot be interrupted until it
+              finishes.
+            </div>
+            <button onclick="startAlgo('SJF_NP')">Start</button>
+          </div>
+          <div class="card SJF2">
+            <div class="heading">
+              <h3>Shortest Job First (Preemptive)</h3>
+            </div>
+            <div class="description">
+              Shortest Job First (Preemptive) is a CPU scheduling algorithm
+              where the process with the shortest remaining burst time is
+              selected for execution. Unlike the non-preemptive version, a
+              currently running process can be interrupted if a new process
+              arrives with a shorter remaining execution time.
+            </div>
+            <button onclick="startAlgo('SJF_P')">Start</button>
+          </div>
+          <div class="card roundRobin">
+            <div class="heading">
+              <h3>Round Robin</h3>
+            </div>
+            <div class="description">
+              Round Robin Scheduling is a method used by operating systems to
+              manage the execution time of multiple processes that are competing
+              for CPU attention. It is called "round robin" because the system
+              rotates through all the processes, allocating each of them a fixed
+              time slice or "quantum", regardless of their priority.
+            </div>
+            <button onclick="startAlgo('RR')">Start</button>
+          </div>
+          <div class="card priority1">
+            <div class="heading">
+              <h3>Priority (Non-Preemptive)</h3>
+            </div>
+            <div class="description">
+              Non-preemptive priority scheduling selects the highest-priority
+              process from the ready queue for execution. Once a process starts
+              running, it continues until completion without interruption, even
+              if a higher-priority process arrives later. Priority is assigned
+              based on system requirements such as resource usage and execution
+              importance.
+            </div>
+            <button onclick="startAlgo('PRIORITY_NP')">Start</button>
+          </div>
+          <div class="card priority2">
+            <div class="heading">
+              <h3>Priority (Preemptive)</h3>
+            </div>
+            <div class="description">
+              Preemptive priority scheduling selects the highest-priority
+              process from the ready queue for execution. If a process with
+              higher priority arrives while another is running, the CPU preempts
+              the current process and allocates the CPU to the higher-priority
+              process. Priority is assigned based on system requirements such as
+              resource usage and execution importance.
+            </div>
+            <button onclick="startAlgo('PRIORITY_P')">Start</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="input-section">
+        <form id="myForm" onsubmit="handleSubmit(event)">
+          <div class="inp">
+            <label for="numProcess">How many processes: </label>
+            <input type="number" id="numProcess" min="1" required />
+          </div>
+          <button id="Submit" type="submit">Submit</button>
+        </form>
+        <div id="inputFields"></div>
+      </div>
+
+      <div class="SJF">
+        <div id="steps"></div>
+        <div id="gantt-container">
+          <h3>Gantt Chart</h3>
+        <div id="gantt"></div>
+      </div>
+
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Process</th>
+              <th>Arrival Time</th>
+              <th>Burst Time</th>
+              <th>Completion Time</th>
+              <th>Turn Around Time</th>
+              <th>Waiting Time</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <p id="output"></p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
