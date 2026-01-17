@@ -66,10 +66,9 @@ The application not only calculates scheduling metrics but also **shows executio
 ## 📁 Project Structure
 
 project-root/
-├── index.html           # Main UI
-├── style.css            # Styling and layout
-└── script.js            # Scheduling logic and visualization
-
+├── index.html    # Main UI
+├── style.css     # Styling and layout
+└── script.js     # Scheduling logic, steps, and Gantt chart visualization
 
 ---
 
