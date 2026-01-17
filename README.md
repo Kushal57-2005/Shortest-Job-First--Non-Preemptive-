@@ -66,6 +66,7 @@ The application not only calculates scheduling metrics but also **shows executio
 ## 📁 Project Structure
 
 project-root/
+
 ├── index.html    
 ├── style.css     
 └── script.js     
