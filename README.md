@@ -4,7 +4,7 @@ A **web-based simulator** for visualizing and understanding different **CPU sche
 The application not only calculates scheduling metrics but also **shows execution steps and Gantt chart visualization** for better conceptual clarity.
 
 > ✅ **Live Demo**  
-> https://kushal57-2005.github.io/Shortest-Job-First--Non-Preemptive-/
+> https://kushal57-2005.github.io/CPU-Scheduling-Simulator/
 
 ---
 
@@ -66,9 +66,9 @@ The application not only calculates scheduling metrics but also **shows executio
 ## 📁 Project Structure
 
 project-root/
-├── index.html    # Main UI
-├── style.css     # Styling and layout
-└── script.js     # Scheduling logic, steps, and Gantt chart visualization
+├── index.html    
+├── style.css     
+└── script.js     
 
 ---
 ## 🎓 Educational Purpose
