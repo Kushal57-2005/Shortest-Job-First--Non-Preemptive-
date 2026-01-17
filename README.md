@@ -71,7 +71,6 @@ project-root/
 └── script.js     # Scheduling logic, steps, and Gantt chart visualization
 
 ---
-
 ## 🎓 Educational Purpose
 
 This project is useful for:
