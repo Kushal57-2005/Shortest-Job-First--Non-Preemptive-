@@ -1,71 +1,95 @@
-# 🖥️ Shortest Job First (SJF) CPU Scheduling Algorithm - Non-Preemptive
+# 🖥️ CPU Scheduling Algorithms Simulator
 
-This project demonstrates the implementation of the **Shortest Job First (SJF)** CPU Scheduling algorithm in a web-based interface. The **non-preemptive** version is used here—once a process starts, it runs to completion without interruption.
+A **web-based simulator** for visualizing and understanding different **CPU scheduling algorithms** used in Operating Systems.  
+The application not only calculates scheduling metrics but also **shows execution steps and Gantt chart visualization** for better conceptual clarity.
 
-**SJF** selects the process with the shortest burst time next. It helps minimize average waiting time and turnaround time, making it efficient for batch jobs with predictable durations.
+> ✅ **Live Demo**  
+> https://kushal57-2005.github.io/CPU-Scheduling-Simulator/
 
-> ✅ **Live Demo**:
-(https://kushal57-2005.github.io/Shortest-Job-First--Non-Preemptive-/)
+---
 
-## 🚀 Features
+## 🚀 Implemented Algorithms
 
-* 📥 User input for number of processes, arrival time, and burst time
-* 🧠 Calculates:
+- **First Come First Serve (FCFS)**
+- **Shortest Job First (SJF)**
+  - Non-Preemptive
+  - Preemptive
+- **Round Robin (RR)**
+- **Priority Scheduling**
+  - Non-Preemptive
+  - Preemptive
 
-  * Completion Time
-  * Turnaround Time
-  * Waiting Time
-  * 📊 Displays results in a clean table format
-  * 📉 Shows **average turnaround** and **waiting time**
+---
+
+## ✨ Features
+
+- 📥 User input for:
+  - Number of processes
+  - Arrival time
+  - Burst time
+  - Priority (for priority scheduling)
+  - Time quantum (for Round Robin)
+
+- 🧠 Automatic calculation of:
+  - Completion Time
+  - Turnaround Time
+  - Waiting Time
+
+- 📊 **Gantt Chart visualization** showing CPU execution order  
+- 🪜 **Step-by-step execution** of each scheduling algorithm  
+- 📉 Displays **average waiting time** and **average turnaround time**  
+- 🎨 Clean and responsive UI for better readability
 
 ---
 
 ## ⚙️ Technologies Used
 
-* **HTML** – Page structure
-* **CSS** – Responsive, clean UI styling
-* **JavaScript** – Logic for SJF scheduling and dynamic DOM updates
+- **HTML** – Structure of the application  
+- **CSS** – Styling and responsive layout  
+- **JavaScript (Vanilla JS)** – Scheduling logic, Gantt chart generation, and DOM manipulation  
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ How to Run the Project
 
-### Prerequisites
-
-* A modern web browser (e.g., Chrome, Firefox)
-* Basic understanding of CPU scheduling algorithms
-
-### Run the App
-
-1. Clone or download the repository.
-2. Open `index.html` in your browser.
-3. On the landing page, click **"Let's Go"** to proceed.
-4. Enter process data and click **"Calculate SJF"** to see results.
+1. Clone or download this repository
+2. Open `index.html` in any modern web browser
+3. Select a CPU scheduling algorithm
+4. Enter process details
+5. Click **Calculate** to view:
+   - Step-by-step execution
+   - Gantt chart
+   - Computed scheduling metrics
 
 ---
 
-## 📁 File Structure
+## 📁 Project Structure
 
-```
-📁 project-root/
-├── index.html     # Main HTML file
-├── style.css      # Styling file
-└── script.js      # JavaScript logic for SJF
-```
+project-root/
 
+├── index.html    
+├── style.css     
+└── script.js     
+
+---
+## 🎓 Educational Purpose
+
+This project is useful for:
+- Operating Systems labs and assignments
+- Visualizing CPU scheduling behavior
+- Comparing different scheduling algorithms
+- Exam and viva preparation
 
 ---
 
-## 🤝 Contribution
+## 🤝 Contributions
 
-Contributions are welcome!
-Feel free to **fork**, **open issues**, or **submit pull requests** to improve the project 💡
+Contributions are welcome.  
+Feel free to fork the repository, open issues, or submit pull requests to improve the simulator.
 
 ---
 
 ## 🙏 Acknowledgements
 
-* Inspired by classic CPU scheduling algorithm exercises
-* Thanks to the open-source community for continual learning support 🌍
-
----
+- Inspired by classical Operating Systems scheduling problems  
+- Thanks to the open-source community for continuous learning
