@@ -1,4 +1,17 @@
 let selectedAlgorithm = null;
+function goBack() {
+  document.querySelector(".start").style.display = "flex";
+  document.querySelector(".main").style.display = "none";
+  selectedAlgorithm = null;
+  document.getElementById("inputFields").innerHTML = "";
+  document.getElementById("steps").innerHTML = "";
+  document.getElementById("gantt").innerHTML = "";
+  document.getElementById("tableBody").innerHTML = "";
+  document.getElementById("calcBody").innerHTML = "";
+  document.getElementById("output").innerHTML = "";
+  document.querySelector(".SJF").style.display = "none";
+  document.getElementById("numProcess").value = "";
+}
 
 function startAlgo(algo) {
   selectedAlgorithm = algo;
@@ -156,44 +169,45 @@ function calculateFCFS() {
 
   processes.forEach((p) => {
     if (currentTime < p.arrival) {
-      steps.push(`CPU is idle from time ${currentTime} to ${p.arrival}.`);
+      steps.push(`CPU is idle from ${currentTime} to ${p.arrival}`);
+
       gantt.push({
         process: "Idle",
         start: currentTime,
         end: p.arrival,
       });
+
       currentTime = p.arrival;
     }
 
     let startTime = currentTime;
-    let completionTime = startTime + p.burst;
-
+    let finishTime = startTime + p.burst;
     steps.push(
-      `Process P${p.id} executes from ${startTime} to ${completionTime}.`,
+      `P${p.id} starts at ${startTime}, runs for ${p.burst} → finishes at ${finishTime}`,
     );
 
     gantt.push({
       process: "P" + p.id,
       start: startTime,
-      end: completionTime,
+      end: finishTime,
     });
 
-    let tat = completionTime - p.arrival;
+    let tat = finishTime - p.arrival;
     let wt = tat - p.burst;
 
     result.push({
       id: p.id,
       arrival: p.arrival,
       burst: p.burst,
-      completion: completionTime,
+      completion: finishTime,
       tat,
       wt,
     });
 
-    currentTime = completionTime;
+    currentTime = finishTime;
   });
 
-  displaySteps(steps);
+  displayStepsSimple(steps);
   displayGanttChart(gantt);
   displayResult(result);
 }
@@ -219,6 +233,7 @@ function calculateSJF_NP() {
 
   let currentTime = Math.min(...processes.map((p) => p.arrival));
   let completedCount = 0;
+  let stepNo = 1;
 
   while (completedCount < n) {
     let available = processes.filter(
@@ -226,43 +241,46 @@ function calculateSJF_NP() {
     );
 
     if (available.length === 0) {
-      steps.push(`CPU is idle at time ${currentTime}.`);
-      gantt.push({
-        process: "Idle",
-        start: currentTime,
-        end: currentTime + 1,
-      });
+      steps.push(`Time = ${currentTime} → CPU is idle`);
       currentTime++;
       continue;
     }
+
+    steps.push(`Time = ${currentTime} → Choose shortest among arrived`);
+
+    let arrivedList = available
+      .map((p) => `\t P${p.id} (AT ${p.arrival}, BT ${p.burst})`)
+      .join(",\n");
+
+    steps.push(`Arrived processes:\n ${arrivedList}`);
 
     available.sort((a, b) => {
       if (a.burst === b.burst) return a.arrival - b.arrival;
       return a.burst - b.burst;
     });
 
-    let p = available[0];
+    let compareLine = available
+      .map((p, idx) =>
+        idx === 0 ? `P${p.id} = ${p.burst} ✅` : `P${p.id} = ${p.burst}`,
+      )
+      .join(", ");
 
-    steps.push(
-      `At time ${currentTime}, available processes are ${available
-        .map((x) => "P" + x.id)
-        .join(
-          ", ",
-        )}. P${p.id} is selected because it has the shortest burst time (${p.burst}).`,
-    );
+    steps.push(`Compare Burst Times: ${compareLine}`);
+
+    let p = available[0];
 
     let startTime = currentTime;
     let completionTime = startTime + p.burst;
+
+    steps.push(
+      `So next = P${p.id}. P${p.id} runs from ${startTime} to ${completionTime}`,
+    );
 
     gantt.push({
       process: "P" + p.id,
       start: startTime,
       end: completionTime,
     });
-
-    steps.push(
-      `Process P${p.id} executes from time ${startTime} to ${completionTime}.`,
-    );
 
     let tat = completionTime - p.arrival;
     let wt = tat - p.burst;
@@ -304,32 +322,25 @@ function calculateSJF_P() {
       arrival: Number(arrivalInputs[i].value),
       burst,
       remaining: burst,
-      completion: burst === 0 ? Number(arrivalInputs[i].value) : null,
-      done: burst === 0,
+      completion: null,
+      done: false,
     });
   }
 
-  let currentTime = Math.min(...processes.map((p) => p.arrival));
-  let completed = processes.filter((p) => p.done).length;
-  let lastProcess = null;
+  let time = Math.min(...processes.map((p) => p.arrival));
+  let completed = 0;
+  let currentProcess = null;
+  let runStartTime = null;
 
   while (completed < n) {
+    let arrivalsNow = processes.filter((p) => p.arrival === time && !p.done);
+
     let available = processes.filter(
-      (p) => p.arrival <= currentTime && !p.done && p.remaining > 0,
+      (p) => p.arrival <= time && !p.done && p.remaining > 0,
     );
 
     if (available.length === 0) {
-      if (!lastProcess || lastProcess.process !== "Idle") {
-        gantt.push({
-          process: "Idle",
-          start: currentTime,
-          end: currentTime + 1,
-        });
-      } else {
-        gantt[gantt.length - 1].end++;
-      }
-      currentTime++;
-      lastProcess = gantt[gantt.length - 1];
+      time++;
       continue;
     }
 
@@ -339,35 +350,80 @@ function calculateSJF_P() {
       return a.id - b.id;
     });
 
-    let p = available[0];
+    let selected = available[0];
 
-    if (!lastProcess || lastProcess.process !== "P" + p.id) {
+    if (currentProcess === null || currentProcess.id !== selected.id) {
+      if (currentProcess !== null && runStartTime !== null) {
+        steps.push(
+          `Time = ${runStartTime} to ${time}\n` +
+            `No new arrivals.\n` +
+            `P${currentProcess.id} runs continuously and stops here.`,
+        );
+      }
+
+      steps.push(`Time = ${time}`);
+
+      if (arrivalsNow.length > 0) {
+        steps.push(`Arrived: ${arrivalsNow.map((p) => "P" + p.id).join(", ")}`);
+      }
+
+      steps.push(`Remaining:`);
+
+      available.forEach((p, idx) => {
+        if (idx === 0) {
+          steps.push(`P${p.id} = ${p.remaining} ✅`);
+        } else {
+          steps.push(`P${p.id} = ${p.remaining}`);
+        }
+      });
+
+      if (currentProcess === null) {
+        steps.push(`Run P${selected.id}`);
+      } else {
+        steps.push(`So preempt P${currentProcess.id}, run P${selected.id}`);
+      }
+
+      runStartTime = time;
+    }
+
+    if (
+      gantt.length === 0 ||
+      gantt[gantt.length - 1].process !== "P" + selected.id
+    ) {
       gantt.push({
-        process: "P" + p.id,
-        start: currentTime,
-        end: currentTime + 1,
+        process: "P" + selected.id,
+        start: time,
+        end: time + 1,
       });
     } else {
       gantt[gantt.length - 1].end++;
     }
 
-    steps.push(`At time ${currentTime}, P${p.id} executes`);
+    selected.remaining--;
+    time++;
 
-    p.remaining--;
-    currentTime++;
-
-    if (p.remaining === 0) {
-      p.completion = currentTime;
-      p.done = true;
+    if (selected.remaining === 0) {
+      selected.completion = time;
+      selected.done = true;
       completed++;
+
+      steps.push(
+        `Time = ${runStartTime} to ${time}\n` +
+          `P${selected.id} runs continuously and finishes at ${time}.`,
+      );
+
+      runStartTime = null;
+      currentProcess = null;
+      continue;
     }
 
-    lastProcess = gantt[gantt.length - 1];
+    currentProcess = selected;
   }
 
   processes.forEach((p) => {
     let tat = p.completion - p.arrival;
     let wt = tat - p.burst;
+
     result.push({
       id: p.id,
       arrival: p.arrival,
@@ -377,16 +433,6 @@ function calculateSJF_P() {
       wt,
     });
   });
-
-  const executionOrder = gantt
-    .filter((g) => g.process !== "Idle")
-    .map((g) => g.process)
-    .filter((v, i, a) => a.indexOf(v) === i);
-
-  result.sort(
-    (a, b) =>
-      executionOrder.indexOf("P" + a.id) - executionOrder.indexOf("P" + b.id),
-  );
 
   displaySteps(steps);
   displayGanttChart(gantt);
@@ -432,10 +478,13 @@ function calculateRR() {
   let currentTime = processes[0].arrival;
   let index = 0;
   let completed = 0;
+  let stepNo = 1;
 
   while (completed < n) {
+    let arrivalsNow = [];
     while (index < n && processes[index].arrival <= currentTime) {
       queue.push(processes[index]);
+      arrivalsNow.push(processes[index]);
       index++;
     }
 
@@ -447,26 +496,40 @@ function calculateRR() {
     let p = queue.shift();
     let execTime = Math.min(timeQuantum, p.remaining);
 
-    if (gantt.length === 0 || gantt[gantt.length - 1].process !== "P" + p.id) {
-      gantt.push({
-        process: "P" + p.id,
-        start: currentTime,
-        end: currentTime + execTime,
-      });
+    steps.push(`Time = ${currentTime}`);
+
+    if (arrivalsNow.length > 0) {
+      steps.push(`Arrived: ${arrivalsNow.map((x) => "P" + x.id).join(", ")}`);
     } else {
-      gantt[gantt.length - 1].end += execTime;
+      steps.push(`Arrived: None`);
     }
 
-    steps.push(
-      `P${p.id} executes from ${currentTime} to ${currentTime + execTime}`,
-    );
+    steps.push(`Run P${p.id} for ${execTime} units.`);
+    steps.push(`P${p.id} runs: ${currentTime} → ${currentTime + execTime}`);
+
+    gantt.push({
+      process: "P" + p.id,
+      start: currentTime,
+      end: currentTime + execTime,
+    });
 
     currentTime += execTime;
     p.remaining -= execTime;
 
+    steps.push(`Remaining P${p.id} = ${p.remaining}`);
+
+    let arrivalsDuring = [];
     while (index < n && processes[index].arrival <= currentTime) {
       queue.push(processes[index]);
+      arrivalsDuring.push(processes[index]);
       index++;
+    }
+
+    if (arrivalsDuring.length > 0) {
+      steps.push(`At time ${currentTime}, arrivals:`);
+      arrivalsDuring.forEach((x) => {
+        steps.push(`P${x.id} (AT ${x.arrival})`);
+      });
     }
 
     if (p.remaining > 0) {
@@ -474,12 +537,20 @@ function calculateRR() {
     } else {
       p.completion = currentTime;
       completed++;
+      steps.push(`P${p.id} finishes here.`);
     }
+
+    if (queue.length > 0) {
+      steps.push(`Queue now: [${queue.map((x) => "P" + x.id).join(", ")}]`);
+    }
+
+    stepNo++;
   }
 
   processes.forEach((p) => {
     let tat = p.completion - p.arrival;
     let wt = tat - p.burst;
+
     result.push({
       id: p.id,
       arrival: p.arrival,
@@ -489,15 +560,6 @@ function calculateRR() {
       wt,
     });
   });
-
-  const executionOrder = gantt
-    .map((g) => g.process)
-    .filter((v, i, a) => a.indexOf(v) === i);
-
-  result.sort(
-    (a, b) =>
-      executionOrder.indexOf("P" + a.id) - executionOrder.indexOf("P" + b.id),
-  );
 
   displaySteps(steps);
   displayGanttChart(gantt);
@@ -535,30 +597,46 @@ function calculatePriority_NP() {
     );
 
     if (available.length === 0) {
-      steps.push(`CPU is idle at time ${currentTime}`);
       currentTime++;
       continue;
     }
+
+    steps.push(`Time = ${currentTime} → choose highest priority among arrived`);
+
+    steps.push(`By time ${currentTime}, arrived:`);
+
+    available.forEach((p) => {
+      steps.push(`P${p.id} (Priority ${p.priority})`);
+    });
 
     available.sort((a, b) => {
       if (a.priority !== b.priority) return a.priority - b.priority;
       if (a.arrival !== b.arrival) return a.arrival - b.arrival;
       return a.id - b.id;
     });
+    steps.push(`Pick highest priority = smallest number:`);
+
+    available.forEach((p, idx) => {
+      if (idx === 0) {
+        steps.push(`P${p.id} = ${p.priority} ✅ (highest)`);
+      } else {
+        steps.push(`P${p.id} = ${p.priority}`);
+      }
+    });
 
     let p = available[0];
+
     let startTime = currentTime;
     let completionTime = startTime + p.burst;
+
+    steps.push(`So next = P${p.id}`);
+    steps.push(`P${p.id} runs from ${startTime} to ${completionTime}`);
 
     gantt.push({
       process: "P" + p.id,
       start: startTime,
       end: completionTime,
     });
-
-    steps.push(
-      `At time ${startTime}, P${p.id} executes (priority ${p.priority})`,
-    );
 
     let tat = completionTime - p.arrival;
     let wt = tat - p.burst;
@@ -577,15 +655,6 @@ function calculatePriority_NP() {
     currentTime = completionTime;
     completed++;
   }
-
-  const executionOrder = gantt
-    .map((g) => g.process)
-    .filter((v, i, a) => a.indexOf(v) === i);
-
-  result.sort(
-    (a, b) =>
-      executionOrder.indexOf("P" + a.id) - executionOrder.indexOf("P" + b.id),
-  );
 
   displaySteps(steps);
   displayGanttChart(gantt);
@@ -612,31 +681,35 @@ function calculatePriority_P() {
       priority: Number(priorityInputs[i].value),
       remaining: Number(burstInputs[i].value),
       completion: null,
+      done: false,
     });
   }
 
-  let currentTime = Math.min(...processes.map((p) => p.arrival));
+  let time = Math.min(...processes.map((p) => p.arrival));
   let completed = 0;
-  let lastProcess = null;
+  let currentProcess = null;
+  let runStartTime = null;
 
   while (completed < n) {
+    let arrivalsNow = processes.filter((p) => p.arrival === time && !p.done);
+
     let available = processes.filter(
-      (p) => p.arrival <= currentTime && p.remaining > 0,
+      (p) => p.arrival <= time && !p.done && p.remaining > 0,
     );
 
     if (available.length === 0) {
-      if (!lastProcess || lastProcess.process !== "IDLE") {
+      if (gantt.length === 0 || gantt[gantt.length - 1].process !== "IDLE") {
         gantt.push({
           process: "IDLE",
-          start: currentTime,
-          end: currentTime + 1,
+          start: time,
+          end: time + 1,
         });
       } else {
         gantt[gantt.length - 1].end++;
       }
 
-      currentTime++;
-      lastProcess = gantt[gantt.length - 1];
+      time++;
+      currentProcess = null;
       continue;
     }
 
@@ -646,34 +719,84 @@ function calculatePriority_P() {
       return a.id - b.id;
     });
 
-    let p = available[0];
+    let selected = available[0];
 
-    if (!lastProcess || lastProcess.process !== "P" + p.id) {
+    if (currentProcess === null || currentProcess.id !== selected.id) {
+      if (currentProcess !== null && runStartTime !== null) {
+        steps.push(
+          `Time = ${runStartTime} to ${time}\n` +
+            `P${currentProcess.id} runs continuously and stops here.`,
+        );
+      }
+
+      steps.push(`Time = ${time} → choose highest priority among arrived`);
+
+      if (arrivalsNow.length > 0) {
+        steps.push(`Arrived:`);
+        arrivalsNow.forEach((p) => {
+          steps.push(`P${p.id} (Priority ${p.priority})`);
+        });
+      } else {
+        steps.push(`Arrived: None`);
+      }
+
+      steps.push(`Remaining time:`);
+
+      available.forEach((p, idx) => {
+        if (idx === 0) {
+          steps.push(`P${p.id} = ${p.remaining} (Priority ${p.priority}) ✅`);
+        } else {
+          steps.push(`P${p.id} = ${p.remaining} (Priority ${p.priority})`);
+        }
+      });
+
+      if (currentProcess === null) {
+        steps.push(`Run P${selected.id}`);
+      } else {
+        steps.push(`So preempt P${currentProcess.id}, run P${selected.id}`);
+      }
+
+      runStartTime = time;
+    }
+
+    if (
+      gantt.length === 0 ||
+      gantt[gantt.length - 1].process !== "P" + selected.id
+    ) {
       gantt.push({
-        process: "P" + p.id,
-        start: currentTime,
-        end: currentTime + 1,
+        process: "P" + selected.id,
+        start: time,
+        end: time + 1,
       });
     } else {
       gantt[gantt.length - 1].end++;
     }
 
-    steps.push(`At time ${currentTime}, P${p.id} executes`);
+    selected.remaining--;
+    time++;
 
-    p.remaining--;
-    currentTime++;
-
-    if (p.remaining === 0) {
-      p.completion = currentTime;
+    if (selected.remaining === 0) {
+      selected.completion = time;
+      selected.done = true;
       completed++;
+
+      steps.push(
+        `Time = ${runStartTime} to ${time}\n` +
+          `P${selected.id} runs continuously and finishes at ${time}.`,
+      );
+
+      runStartTime = null;
+      currentProcess = null;
+      continue;
     }
 
-    lastProcess = gantt[gantt.length - 1];
+    currentProcess = selected;
   }
 
   processes.forEach((p) => {
     let tat = p.completion - p.arrival;
     let wt = tat - p.burst;
+
     result.push({
       id: p.id,
       arrival: p.arrival,
@@ -684,16 +807,6 @@ function calculatePriority_P() {
       wt,
     });
   });
-
-  const executionOrder = gantt
-    .filter((g) => g.process !== "IDLE")
-    .map((g) => g.process)
-    .filter((v, i, a) => a.indexOf(v) === i);
-
-  result.sort(
-    (a, b) =>
-      executionOrder.indexOf("P" + a.id) - executionOrder.indexOf("P" + b.id),
-  );
 
   displaySteps(steps);
   displayGanttChart(gantt);
@@ -753,16 +866,62 @@ function displaySteps(steps) {
   const stepsDiv = document.getElementById("steps");
   stepsDiv.innerHTML = "<h3>Step-by-Step Execution</h3>";
 
-  steps.forEach((step, index) => {
+  let stepCount = 0;
+  let currentBlock = null;
+
+  steps.forEach((line) => {
+    if (!line || line.trim() === "") return;
+
+    if (line.startsWith("Time =")) {
+      stepCount++;
+
+      const block = document.createElement("div");
+      block.style.marginBottom = "1rem";
+
+      const title = document.createElement("p");
+      title.style.fontWeight = "bold";
+      title.innerText = `Step ${stepCount}:`;
+
+      block.appendChild(title);
+      stepsDiv.appendChild(block);
+
+      currentBlock = block;
+    }
+
     const p = document.createElement("p");
-    p.innerText = `Step ${index + 1}: ${step}`;
+    p.innerText = line;
+    p.style.whiteSpace = "pre-line";
+    p.style.marginLeft = "1rem";
+
+    if (currentBlock) {
+      currentBlock.appendChild(p);
+    }
+  });
+}
+
+function displayStepsSimple(steps) {
+  const stepsDiv = document.getElementById("steps");
+  stepsDiv.innerHTML = "<h3>Step-by-Step Execution</h3>";
+
+  let stepCount = 1;
+
+  steps.forEach((line) => {
+    if (!line || line.trim() === "") return;
+
+    const p = document.createElement("p");
+    p.innerText = `Step ${stepCount}: ${line}`;
     stepsDiv.appendChild(p);
+
+    stepCount++;
   });
 }
 
 function displayResult(completed) {
   const tbody = document.getElementById("tableBody");
+  const calcBody = document.getElementById("calcBody");
+
   tbody.innerHTML = "";
+  calcBody.innerHTML = "";
 
   let totalTAT = 0;
   let totalWT = 0;
@@ -770,7 +929,6 @@ function displayResult(completed) {
   completed.forEach((p) => {
     totalTAT += p.tat;
     totalWT += p.wt;
-
     const row = `<tr>
       <td>P${p.id}</td>
       <td>${p.arrival}</td>
@@ -779,22 +937,23 @@ function displayResult(completed) {
       <td>${p.tat}</td>
       <td>${p.wt}</td>
     </tr>`;
-
     tbody.innerHTML += row;
+    const calcRow = `<tr>
+      <td>P${p.id}</td>
+      <td>${p.completion} - ${p.arrival} = ${p.tat}</td>
+      <td>${p.tat} - ${p.burst} = ${p.wt}</td>
+    </tr>`;
+    calcBody.innerHTML += calcRow;
   });
 
   const output = document.getElementById("output");
   output.innerHTML = `
-  <p>
-  <strong>Average Turn Around Time:</strong> ${(
-    totalTAT / completed.length
-  ).toFixed(2)}</p>  
-  <br>
-   <p>
-    <strong>Average Waiting Time:</strong> ${(
-      totalWT / completed.length
-    ).toFixed(2)}</p>
+    <p><strong>Average Turn Around Time:</strong> ${(totalTAT / completed.length).toFixed(2)}</p>
+    <br>
+    <p><strong>Average Waiting Time:</strong> ${(totalWT / completed.length).toFixed(2)}</p>
   `;
 
   document.querySelector(".SJF").style.display = "flex";
 }
+
+document.getElementById("backBtn").addEventListener("click", goBack);

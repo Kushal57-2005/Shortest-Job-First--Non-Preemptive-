@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shortest Job First</title>
+    <title>CPU Scheduling Alogrithm</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_back" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="start-page">
@@ -95,8 +96,15 @@
         </div>
       </div>
     </div>
-
     <div class="main">
+        <div class="backBTN">
+          <svg id="backBtn" xmlns="http://www.w3.org/2000/svg"
+        height="24px" viewBox="0 -960 960 960" width="24px"
+        fill="#e3e3e3"
+         style="cursor:pointer; margin-bottom:10px;">
+         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+      </svg>      
+        </div>
       <span class="algoName"></span>
       <div class="input-section">
         <form id="myForm" onsubmit="handleSubmit(event)">
@@ -110,27 +118,49 @@
       </div>
 
       <div class="SJF">
-        <div id="steps"></div>
+        <div class="formulas">
+          <h3>Formulas</h3>
+          <p>Turn Around Time = Completion Time - Arrival Time</p>
+          <p>Waiting Time = Turn Around Time - Burst Time</p>
+        </div>
+        <div id="steps">
+          
+        </div>
         <div id="gantt-container">
           <h3>Gantt Chart</h3>
         <div id="gantt"></div>
       </div>
 
-      <div class="table">
-        <table>
-          <thead>
-            <tr>
-              <th>Process</th>
-              <th>Arrival Time</th>
-              <th>Burst Time</th>
-              <th>Completion Time</th>
-              <th>Turn Around Time</th>
-              <th>Waiting Time</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
+      <div class="result-section">
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Process</th>
+          <th>Arrival Time (AT)</th>
+          <th>Burst Time (BT)</th>
+          <th>Completion Time (CT)</th>
+          <th>Turn Around Time (TAT)</th>
+          <th>Waiting Time (WT)</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <div class="calc-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Process</th>
+          <th>Turn Around Time (TAT = CT - AT)</th>
+          <th>Waiting Time (WT = TAT - BT)</th>
+        </tr>
+      </thead>
+      <tbody id="calcBody"></tbody>
+    </table>
+  </div>
+</div>
+
       <p id="output"></p>
     </div>
     <script src="script.js"></script>
